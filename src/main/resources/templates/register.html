@@ -8,25 +8,30 @@
 <body>
 	<div class="col-6 offset-3">
 		<form method="POST"
-			action="/register">
+			action="/register"
+			th:object="${registerBean}">
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Tên tài khoản</label>
 			  <input th:value="${registerBean.username}" name="username" type="text" class="form-control" id="exampleFormControlInput1">
+			  <small class="text-danger" th:errors="*{username}"></small>
 			</div>
 			
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Mật khẩu</label>
 			  <input th:value="${registerBean.password}" name="password" type="password" class="form-control" id="exampleFormControlInput1">
+			  <small class="text-danger" th:errors="*{password}"></small>
 			</div>
 			
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Email</label>
 			  <input th:value="${registerBean.email}" name="email" type="email" class="form-control" id="exampleFormControlInput1">
+			  <small class="text-danger" th:errors="*{email}"></small>
 			</div>
 			
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Họ và tên</label>
 			  <input th:value="${registerBean.fullName}" name="fullName" type="text" class="form-control" id="exampleFormControlInput1">
+			  <small class="text-danger" th:errors="*{fullName}"></small>
 			</div>
 			
 			<button type="submit" class="btn btn-primary">Đăng ký</button>
