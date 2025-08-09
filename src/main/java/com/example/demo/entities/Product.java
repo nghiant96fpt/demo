@@ -47,6 +47,12 @@ public class Product {
 
 	@OneToMany(mappedBy = "product")
 	private List<Image> images;
+
+	@OneToMany(mappedBy = "product")
+	private List<CartItem> cartItemts;
+
+	@OneToMany(mappedBy = "product")
+	private List<OrderItem> orderItems;
 }
 
 // Khi thấy khoá ngoại dùng @ManyToOne và @JoinColumn 
