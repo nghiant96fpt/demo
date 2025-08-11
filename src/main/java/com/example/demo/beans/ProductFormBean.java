@@ -1,6 +1,9 @@
 package com.example.demo.beans;
 
+import java.util.List;
+
 import org.hibernate.validator.constraints.Length;
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -13,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ProductFormBean {
+	private int id;
+
 	@NotBlank(message = "Tên sản phẩm không được bỏ trống")
 	private String name;
 
@@ -29,6 +34,47 @@ public class ProductFormBean {
 	@NotNull(message = "Số lượng không được bỏ trống")
 	@Min(value = 1, message = "Số lượng phải từ 1")
 	private int quantity;
+
+	@NotNull(message = "Danh mục bắt buộc chọn")
+	@Min(value = 1, message = "Danh mục bắt buộc chọn")
+	private int catId;
+
+	private int status;
+
+	private List<MultipartFile> images;
+
+	public String getErrorImage() {
+//		Bắt buộc phải upload ít nhất 1 file ảnh 
+//		Tất cả các file khi upload lên bắt buộc phải là ảnh 
+//		type == image/*
+//		Kích thước mỗi file không được vượt quá 20MB 
+
+		if (images == null) {
+			return null;
+		}
+
+		if (this.images.size() == 0) {
+			return "Bạn chưa chọn ảnh";
+		}
+		for (MultipartFile image : this.images) {
+//			Tuỳ theo loại file mà trả về các định dạng
+//			- Image: image/jpg, image/png, image/webp,...
+//			- Docs: application/docx, application/pdf,....
+			if (!image.getContentType().startsWith("image/")) {
+				return "File upload bắt buộc phải là ảnh";
+			}
+
+			long maxSize = 1024 * 1024;
+
+//			image.getSize() => byte 
+			if (image.getSize() > maxSize) {
+				return "Kích thước file vượt quá kích thước tối đa";
+			}
+		}
+
+//		Không có lỗi 
+		return null;
+	}
 }
 
 //- Tên không được bỏ trống

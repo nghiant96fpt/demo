@@ -30,7 +30,7 @@ public class Product {
 	private String name;
 
 	@Column(name = "description", nullable = false, columnDefinition = "NTEXT")
-	private String decs;
+	private String desc;
 
 	@Column(name = "price", nullable = false)
 	private int price;

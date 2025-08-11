@@ -9,18 +9,19 @@
 	<div class="col-6 offset-3">
 		<form method="post"
 			action="/admin/product-form"
+			enctype="multipart/form-data"
 			th:object="${productBean}">
+			<input type="hidden" name="id" th:value="${productBean.id}"/>
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Tên sản phẩm</label>
-			  <!-- <input th:value="${productBean.name}" name="name" type="text" class="form-control" id="exampleFormControlInput1"> -->
 			  <input th:value="*{name}" name="name" type="text" class="form-control" id="exampleFormControlInput1">
 			  <small class="text-danger" th:errors="*{name}"></small>
 			</div>
 			
 			<div class="mb-3">
 			  <label for="exampleFormControlInput1" class="form-label">Mô tả</label>
-			  <input th:value="*{decs}" name="decs" type="text" class="form-control" id="exampleFormControlInput1">
-			  <small class="text-danger" th:errors="*{decs}"></small>
+			  <input th:value="*{desc}" name="desc" type="text" class="form-control" id="exampleFormControlInput1">
+			  <small class="text-danger" th:errors="*{desc}"></small>
 			</div>
 			
 			<div class="mb-3">
@@ -35,7 +36,69 @@
 			  <small class="text-danger" th:errors="*{quantity}"></small>
 			</div>
 			
-			<button type="submit" class="btn btn-primary">Thêm sản phẩm</button>
+			<div class="mb-3">
+			  <label for="exampleFormControlInput1" class="form-label">Danh mục</label>
+			  <select name="catId" class="form-select" aria-label="Default select example">
+			  	<th:block th:if="${productBean.catId == null}">
+			  		<option value="0" selected>------Chọn danh mục--------</option>
+			  	</th:block>
+			  	<th:block th:if="${productBean.status != null}">
+			  		<option value="0">------Chọn danh mục--------</option>
+			  	</th:block>
+			  	
+			  	<th:block th:each="item : ${categories}" >
+			  		<th:block th:if="${productBean.catId == item.id}">
+			  			<option th:text="${item.name}" th:value="${item.id}" selected></option>
+			  		</th:block>
+			  		
+			  		<th:block th:if="${productBean.catId != item.id}">
+			  			<option th:text="${item.name}" th:value="${item.id}"></option>
+			  		</th:block>
+			  	</th:block>
+				</select>
+				<small class="text-danger" th:errors="*{catId}"></small>
+			</div>
+			
+			<div class="mb-3">
+			  <label for="formFile" class="form-label">Hình ảnh sản phẩm</label>
+			  <input name="images" class="form-control" type="file" multiple id="formFile">
+			  <small class="text-danger" th:text="*{errorImage}"></small>
+			</div>
+			
+			<div class="mb-3">
+			  <label for="formFile" class="form-label">Trạng thái</label>
+			  <th:block th:if="${productBean.status == 1}">
+			  	<div class="form-check">
+				  <input name="status" value="1" checked class="form-check-input" type="radio" id="radioDefault1">
+				  <label class="form-check-label" for="radioDefault1">
+				    Đang kinh doanh
+				  </label>
+				</div>
+				<div class="form-check">
+				  <input name="status" value="0" class="form-check-input" type="radio" id="radioDefault2">
+				  <label class="form-check-label" for="radioDefault2">
+				    Ngừng kinh doanh
+				  </label>
+				</div>
+			  </th:block>
+			  
+			  <th:block th:if="${productBean.status != 1}">
+			  	<div class="form-check">
+				  <input name="status" value="1" class="form-check-input" type="radio" id="radioDefault1">
+				  <label class="form-check-label" for="radioDefault1">
+				    Đang kinh doanh
+				  </label>
+				</div>
+				<div class="form-check">
+				  <input name="status" value="0" checked class="form-check-input" type="radio" id="radioDefault2">
+				  <label class="form-check-label" for="radioDefault2">
+				    Ngừng kinh doanh
+				  </label>
+				</div>
+			  </th:block>
+			</div>
+			
+			<button type="submit" class="btn btn-primary" th:text="${productBean.id == 0 ? 'Thêm sản phẩm' : 'Sửa sản phẩm'}"></button>
 		</form>
 	</div>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js" integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous"></script>
