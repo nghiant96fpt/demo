@@ -132,7 +132,6 @@ public class ProductFormController {
 	private String uploadFile(MultipartFile file) {
 		Path filePath = Paths.get("images");
 		try {
-//			    	image.getContentType() => Dinh dang cua file upload
 			Files.createDirectories(filePath);
 			Date date = new Date();
 			String fileName = date.getTime() + ".jpg";

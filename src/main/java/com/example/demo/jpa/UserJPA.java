@@ -13,6 +13,6 @@ public interface UserJPA extends JpaRepository<User, Integer> {
 	@Query(value = "SELECT * FROM users WHERE username=?1 OR email=?2 ", nativeQuery = true)
 	public List<User> checkEmailOrUserExist(String username, String email);
 
-	@Query(value = "SELECT * FROM users WHERE username=?1 ", nativeQuery = true)
+	@Query(value = "SELECT * FROM users WHERE username=?1 AND status=1", nativeQuery = true)
 	public Optional<User> checkUsernameExist(String username);
 }
