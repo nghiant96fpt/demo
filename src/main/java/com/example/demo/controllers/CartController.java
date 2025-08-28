@@ -37,6 +37,12 @@ public class CartController {
 	@Autowired
 	HttpServletResponse response;
 
+//	@GetMapping("/user/cart")
+//	public String cart() {
+//
+//		return "cart.html";
+//	}
+
 	@GetMapping("/user/add-to-cart")
 	public String addToCart(@RequestParam(name = "prodId") int prodId) {
 
@@ -62,7 +68,7 @@ public class CartController {
 
 				cartItemJPA.save(cartItem);
 			}
-		} else {
+		} else if (cartItemOptional.get().getProduct().getQuantity() >= 1) {
 			CartItem cartItem = new CartItem();
 			cartItem.setQuantity(1);
 			Optional<Product> prodOptional = productJPA.findById(prodId);
